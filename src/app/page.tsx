@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { LatestPost } from "skillz/app/_components/post";
 import { api, HydrateClient } from "skillz/trpc/server";
 
@@ -10,42 +8,50 @@ export default async function Home() {
 
   return (
     <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-            Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-          </h1>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">First Steps →</h3>
-              <div className="text-lg">
-                Just the basics - Everything you need to know to set up your
-                database and authentication.
-              </div>
-            </Link>
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/introduction"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">Documentation →</h3>
-              <div className="text-lg">
-                Learn more about Create T3 App, the libraries it uses, and how
-                to deploy it.
-              </div>
-            </Link>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">
-              {hello ? hello.greeting : "Loading tRPC query..."}
-            </p>
-          </div>
+      <main className="min-h-screen bg-[#090a0d] font-mono text-zinc-100">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+          <section className="grid grid-cols-1 gap-8 lg:grid-cols-[auto_1fr] lg:gap-14">
+            <div className="flex flex-col gap-4">
+              <pre className="select-none overflow-x-auto text-[11px] leading-[1.15] tracking-[-0.06em] text-zinc-400 sm:text-[13px] lg:text-[15px]">
+                {`███████╗██╗  ██╗██╗██╗     ██╗     ███████╗
+██╔════╝██║ ██╔╝██║██║     ██║     ╚══███╔╝
+███████╗█████╔╝ ██║██║     ██║       ███╔╝
+╚════██║██╔═██╗ ██║██║     ██║      ███╔╝
+███████║██║  ██╗██║███████╗███████╗███████╗
+╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚══════╝`}
+              </pre>
+              <p className="text-center text-sm font-medium tracking-wide text-zinc-200 uppercase lg:text-left">
+                The Open Source Skill Registry
+              </p>
+            </div>
 
-          <LatestPost />
+            <div className="flex flex-col gap-7">
+              <p className="max-w-3xl text-lg leading-tight tracking-tight text-zinc-300 sm:text-2xl lg:text-3xl">
+                Skills are reusable capabilities for AI agents. Install with a
+                single command and compose your ideal workflow.
+              </p>
+
+              <div className="w-full max-w-md rounded-md border border-zinc-800 bg-zinc-950/70 px-4 py-3">
+                <p className="mb-2 text-xs tracking-wide text-zinc-500 uppercase">
+                  Try it now
+                </p>
+                <code className="text-sm text-zinc-100">
+                  <span className="text-zinc-500">$ </span>
+                  npx skillz add &lt;owner/repo&gt;
+                </code>
+              </div>
+            </div>
+          </section>
+
+          <section className="w-full max-w-md rounded-lg border border-zinc-800 bg-zinc-900/40 p-4">
+            <p className="mb-3 text-xs tracking-wide text-zinc-500 uppercase">
+              Registry status
+            </p>
+            <p className="mb-4 text-sm text-zinc-300">
+              {hello ? hello.greeting : "Loading registry status..."}
+            </p>
+            <LatestPost />
+          </section>
         </div>
       </main>
     </HydrateClient>
