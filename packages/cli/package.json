@@ -1,0 +1,25 @@
+{
+  "name": "skillz",
+  "version": "0.1.0",
+  "description": "The Open Source Skill Registry CLI",
+  "type": "module",
+  "bin": {
+    "skillz": "./dist/cli.js"
+  },
+  "exports": {
+    ".": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "start": "node dist/cli.js"
+  },
+  "dependencies": {
+    "commander": "^13.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.2"
+  }
+}
