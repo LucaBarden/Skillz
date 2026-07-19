@@ -9,8 +9,8 @@ program
 
 program
   .command("add")
-  .description("Add a skill from a GitHub repository")
-  .argument("<owner/repo>", "Owner and repository name (e.g. anomalyco/my-skill)")
+  .description("Add a skill from a Skillz Registry")
+  .argument("<owner/repo>", "Owner and skill name (e.g. anomalyco/my-skill)")
   .action((repo: string) => {
     const [owner, name] = repo.split("/");
     if (!owner || !name) {
