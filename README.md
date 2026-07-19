@@ -1,29 +1,75 @@
-# Create T3 App
+<pre align="center">
+███████╗██╗  ██╗██╗██╗     ██╗     ███████╗
+██╔════╝██║ ██╔╝██║██║     ██║     ╚══███╔╝
+███████╗█████╔╝ ██║██║     ██║       ███╔╝
+╚════██║██╔═██╗ ██║██║     ██║      ███╔╝
+███████║██║  ██╗██║███████╗███████╗███████╗
+╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚══════╝
+</pre>
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+<p align="center">
+  <strong>The Open Source Skill Registry</strong>
+  <br>
+  Skills are reusable capabilities for AI agents. Install with a single command and compose your ideal workflow.
+</p>
 
-## What's next? How do I make an app with this?
+<p align="center">
+  <a href="https://github.com/anomalyco/skillz">GitHub</a> &bull;
+  <a href="#self-hosting">Self-hosting</a> &bull;
+  <a href="#skill-spec">Skill Spec</a>
+</p>
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+---
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Install the CLI
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+```bash
+npx skillz setup      # configure your registry
+npx skillz find       # browse available skills
+npx skillz add owner/repo
+```
 
-## Learn More
+See [CLI package →](packages/cli)
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Self-hosting
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+Run your own skillz registry with Docker:
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+```bash
+docker compose up -d
+```
 
-## How do I deploy this?
+The registry serves the web UI at `http://localhost:3000`. Point the CLI at it with `skillz setup`.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## Skill Spec
+
+A skill is a single markdown file — `SKILL.md` — with YAML frontmatter:
+
+```markdown
+---
+name: code-review
+description: Review pull requests for common bugs and style issues
+version: 1.0.0
+---
+
+# Code Review Skill
+
+This skill helps you review code by checking for...
+```
+
+Publish via the web UI at `/publish` or with `skillz publish ./SKILL.md`.
+
+## Tech Stack
+
+| Layer         | Tech                                        |
+| ------------- | ------------------------------------------- |
+| Web framework | Next.js 15 (App Router)                     |
+| API           | tRPC v11                                    |
+| Database      | SQLite (libSQL + Drizzle ORM)               |
+| Styling       | Tailwind CSS v4                             |
+| CLI           | Commander + @inquirer/prompts + Chalk       |
+| Dev tools     | TypeScript, ESLint 9, Prettier, Drizzle Kit |
+
+## License
+
+MIT
