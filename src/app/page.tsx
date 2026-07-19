@@ -1,6 +1,8 @@
 import { SkillList } from "skillz/app/_components/skill-list";
 import { api, HydrateClient } from "skillz/trpc/server";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   void api.skill.getAll.prefetch();
 

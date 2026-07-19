@@ -2,7 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import chalk from "chalk";
 import { checkbox, input } from "@inquirer/prompts";
-import { getConfig, saveConfig } from "../config.js";
+import { getConfig, saveConfig, type SkillzConfig } from "../config.js";
 
 interface SkillResult {
   owner: string;
@@ -27,14 +27,13 @@ export async function findCommand(
     process.exit(1);
   }
 
-  let skillsDir: string;
-
-  if (global) {
-    skillsDir =
-      config.skillsDir ?? (await promptSkillsDir(config));
-  } else {
-    skillsDir = await promptDir();
+  async function resolveDir(): Promise<string> {
+    if (global && config.skillsDir) return config.skillsDir;
+    if (global) return await promptSkillsDir(config);
+    return await promptDir();
   }
+
+  const skillsDir = await resolveDir();
 
   const url = new URL("/api/skills", config.registry);
   if (query) url.searchParams.set("q", query);
@@ -93,6 +92,7 @@ export async function findCommand(
 
   for (const slug of selected) {
     const [owner, name] = slug.split("/");
+    if (!name) continue;
     const skill = results.find((r) => r.owner === owner && r.name === name);
     if (!skill) continue;
 
@@ -114,7 +114,7 @@ export async function findCommand(
   );
 }
 
-async function promptSkillsDir(config: { skillsDir?: string | null }) {
+async function promptSkillsDir(config: SkillzConfig) {
   const dir = await input({
     message: "Where should skills be installed?",
     validate: (value: string) => {

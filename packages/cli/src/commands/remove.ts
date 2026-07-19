@@ -1,4 +1,5 @@
 import { readdir, rm } from "node:fs/promises";
+import type { Dirent } from "node:fs";
 import { join } from "node:path";
 import chalk from "chalk";
 import { checkbox } from "@inquirer/prompts";
@@ -16,7 +17,7 @@ export async function removeCommand(): Promise<void> {
     process.exit(1);
   }
 
-  let entries: string[];
+  let entries: Dirent[];
   try {
     entries = await readdir(config.skillsDir, { withFileTypes: true });
   } catch {

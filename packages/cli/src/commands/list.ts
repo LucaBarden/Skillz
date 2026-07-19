@@ -1,8 +1,8 @@
 import { readdir, readFile } from "node:fs/promises";
+import type { Dirent } from "node:fs";
 import { join } from "node:path";
 import chalk from "chalk";
 import { parseSkillMd } from "../../../shared/src/index.js";
-import type { ParseResult } from "../../../shared/src/index.js";
 import { getConfig } from "../config.js";
 
 export async function listCommand(): Promise<void> {
@@ -17,7 +17,7 @@ export async function listCommand(): Promise<void> {
     process.exit(1);
   }
 
-  let entries: { name: string }[];
+  let entries: Dirent[];
   try {
     entries = await readdir(config.skillsDir, { withFileTypes: true });
   } catch {

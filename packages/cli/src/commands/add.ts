@@ -2,7 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import chalk from "chalk";
 import { input } from "@inquirer/prompts";
-import { getConfig, saveConfig } from "../config.js";
+import { getConfig, saveConfig, type SkillzConfig } from "../config.js";
 
 export async function addCommand(
   owner: string,
@@ -16,15 +16,15 @@ export async function addCommand(
     process.exit(1);
   }
 
-  let skillsDir: string;
-
-  if (global) {
-    skillsDir = config.skillsDir ?? await promptSkillsDir(config);
-  } else {
-    skillsDir = await promptDir();
+  async function resolveDir(): Promise<string> {
+    if (global && config.skillsDir) return config.skillsDir;
+    if (global) return await promptSkillsDir(config);
+    return await promptDir();
   }
 
-  // 2. Fetch skill from registry
+  const skillsDir = await resolveDir();
+
+  // 1. Fetch skill from registry
   const url = new URL(`/api/skills/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`, config.registry);
   console.log(chalk.dim(`Fetching ${owner}/${name} from registry...`));
 
@@ -59,7 +59,7 @@ export async function addCommand(
   console.log(chalk.dim(`  SKILL.md written`));
 }
 
-async function promptSkillsDir(config: { skillsDir?: string | null }) {
+async function promptSkillsDir(config: SkillzConfig) {
   const dir = await input({
     message: "Where should skills be installed?",
     validate: (value: string) => {

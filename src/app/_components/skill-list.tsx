@@ -32,28 +32,29 @@ export function SkillList() {
               {skills.map((skill) => (
                 <tr
                   key={skill.id}
-                  className="bg-zinc-950/40 transition-colors hover:bg-zinc-900/60"
+                  className="relative bg-zinc-950/40 transition-colors hover:bg-zinc-900/60"
                 >
                   <td className="px-4 py-3">
-                    <Link
-                      href={`/skill/${skill.owner}/${skill.name}`}
-                      className="text-sm font-semibold text-zinc-100 transition hover:text-white"
-                    >
+                    <span className="text-sm font-semibold text-zinc-100">
                       {skill.owner}/{skill.name}
-                    </Link>
+                    </span>
                   </td>
                   <td className="hidden px-4 py-3 sm:table-cell">
-                    <Link
-                      href={`/skill/${skill.owner}/${skill.name}`}
-                      className="text-sm text-zinc-400 transition hover:text-zinc-200"
-                    >
+                    <span className="text-sm text-zinc-400">
                       {skill.description}
-                    </Link>
+                    </span>
                   </td>
                   <td className="px-4 py-3 text-right">
                     <span className="font-mono text-xs text-zinc-500">
                       v{skill.version}
                     </span>
+                  </td>
+                  <td className="p-0">
+                    <Link
+                      href={`/skill/${skill.owner}/${skill.name}`}
+                      className="absolute inset-0 z-10"
+                      aria-label={`View ${skill.owner}/${skill.name}`}
+                    />
                   </td>
                 </tr>
               ))}
