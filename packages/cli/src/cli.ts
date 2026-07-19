@@ -5,6 +5,7 @@ import { listCommand } from "./commands/list.js";
 import { publishCommand } from "./commands/publish.js";
 import { removeCommand } from "./commands/remove.js";
 import { setupCommand } from "./commands/setup.js";
+import { updateCommand } from "./commands/update.js";
 
 const program = new Command();
 
@@ -51,5 +52,11 @@ program
   .command("setup")
   .description("Configure which Skillz registry to use")
   .action(setupCommand);
+
+program
+  .command("update")
+  .alias("up")
+  .description("Update installed skills to latest versions")
+  .action(updateCommand);
 
 program.parse();
