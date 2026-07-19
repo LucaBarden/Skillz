@@ -1,4 +1,6 @@
 import { Command } from "commander";
+import { createInterface } from "node:readline/promises";
+import { getConfig, saveConfig } from "./config.js";
 
 const program = new Command();
 
@@ -31,6 +33,34 @@ program
   .action((skillMd: string) => {
     console.log("TODO: Implement Publish");
     console.log(`  file: ${skillMd}`);
+  });
+
+program
+  .command("setup")
+  .description("Configure which Skillz registry to use")
+  .action(async () => {
+    const existing = await getConfig();
+    const rl = createInterface({ input: process.stdin, output: process.stdout });
+
+    console.log("Skillz Setup\n");
+
+    const prompt = existing.registry
+      ? `Registry URL [${existing.registry}]: `
+      : "Registry URL: ";
+
+    const answer = await rl.question(prompt);
+    rl.close();
+
+    const registry = answer.trim() || existing.registry;
+
+    if (!registry) {
+      console.log("\nSetup cancelled. No registry URL provided.");
+      return;
+    }
+
+    await saveConfig({ ...existing, registry });
+
+    console.log(`\nSaved! Registry set to: ${registry}`);
   });
 
 program.parse();
