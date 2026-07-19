@@ -1,6 +1,8 @@
 import { Command } from "commander";
 import { bannerText } from "./banner.js";
+import { addCommand } from "./commands/add.js";
 import { publishCommand } from "./commands/publish.js";
+import { removeCommand } from "./commands/remove.js";
 import { setupCommand } from "./commands/setup.js";
 
 const program = new Command();
@@ -23,10 +25,14 @@ program
       );
       process.exit(1);
     }
-    console.log("TODO: Implement Add");
-    console.log(`  owner: ${owner}`);
-    console.log(`  repo: ${name}`);
+    addCommand(owner, name);
   });
+
+program
+  .command("remove")
+  .alias("rm")
+  .description("Remove installed skills")
+  .action(removeCommand);
 
 program
   .command("publish")
