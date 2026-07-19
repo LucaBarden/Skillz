@@ -1,5 +1,6 @@
 import { Command } from "commander";
 import { bannerText } from "./banner.js";
+import { publishCommand } from "./commands/publish.js";
 import { setupCommand } from "./commands/setup.js";
 
 const program = new Command();
@@ -31,11 +32,11 @@ program
   .command("publish")
   .description("Publish a skill to the registry")
   .argument("<skill-md>", "Path to a SKILL.md file")
-  .action((skillMd: string) => {
-    console.log("TODO: Implement Publish");
-    console.log(`  file: ${skillMd}`);
-  });
+  .action(publishCommand);
 
-program.command("setup").description("Configure which Skillz registry to use").action(setupCommand);
+program
+  .command("setup")
+  .description("Configure which Skillz registry to use")
+  .action(setupCommand);
 
 program.parse();

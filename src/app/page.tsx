@@ -1,10 +1,10 @@
-import { LatestPost } from "skillz/app/_components/post";
+import { SkillList } from "skillz/app/_components/skill-list";
 import { api, HydrateClient } from "skillz/trpc/server";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
+  const hello = await api.skill.hello({ text: "from tRPC" });
 
-  void api.post.getLatest.prefetch();
+  void api.skill.getAll.prefetch();
 
   return (
     <HydrateClient>
@@ -50,7 +50,7 @@ export default async function Home() {
             <p className="mb-4 text-sm text-zinc-300">
               {hello ? hello.greeting : "Loading registry status..."}
             </p>
-            <LatestPost />
+            <SkillList />
           </section>
         </div>
       </main>

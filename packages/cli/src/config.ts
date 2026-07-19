@@ -4,6 +4,7 @@ import { join } from "node:path";
 
 export interface SkillzConfig {
   registry: string;
+  owner?: string;
 }
 
 const CONFIG_DIR = join(homedir(), ".config", "skillz");
