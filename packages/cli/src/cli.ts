@@ -20,7 +20,8 @@ program
   .command("add")
   .description("Add a skill from a Skillz Registry")
   .argument("<owner/repo>", "Owner and skill name (e.g. anomalyco/my-skill)")
-  .action((repo: string) => {
+  .option("-g, --global", "Install to global skills directory")
+  .action((repo: string, opts: { global?: boolean }) => {
     const [owner, name] = repo.split("/");
     if (!owner || !name) {
       console.error(
@@ -28,14 +29,17 @@ program
       );
       process.exit(1);
     }
-    addCommand(owner, name);
+    addCommand(owner, name, opts.global ?? false);
   });
 
 program
   .command("find")
   .description("Search for skills in the registry")
   .argument("[query]", "Search query (optional, shows all if omitted)")
-  .action(findCommand);
+  .option("-g, --global", "Install to global skills directory")
+  .action((query: string | undefined, opts: { global?: boolean }) =>
+    findCommand(opts.global ?? false, query),
+  );
 
 program
   .command("list")

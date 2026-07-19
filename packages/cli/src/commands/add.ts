@@ -4,7 +4,11 @@ import chalk from "chalk";
 import { input } from "@inquirer/prompts";
 import { getConfig, saveConfig } from "../config.js";
 
-export async function addCommand(owner: string, name: string): Promise<void> {
+export async function addCommand(
+  owner: string,
+  name: string,
+  global: boolean,
+): Promise<void> {
   const config = await getConfig();
 
   if (!config.registry) {
@@ -12,20 +16,12 @@ export async function addCommand(owner: string, name: string): Promise<void> {
     process.exit(1);
   }
 
-  // 1. Ensure skills directory is configured
-  let skillsDir = config.skillsDir;
-  if (!skillsDir) {
-    console.log(chalk.dim("No skills directory configured."));
-    skillsDir = await input({
-      message: "Where should skills be installed?",
-      validate: (value: string) => {
-        if (!value.trim()) return "Path is required";
-        return true;
-      },
-    });
-    await saveConfig({ ...config, skillsDir });
-    console.log(chalk.dim(`Saved to config: ${skillsDir}`));
-    console.log();
+  let skillsDir: string;
+
+  if (global) {
+    skillsDir = config.skillsDir ?? await promptSkillsDir(config);
+  } else {
+    skillsDir = await promptDir();
   }
 
   // 2. Fetch skill from registry
@@ -61,4 +57,28 @@ export async function addCommand(owner: string, name: string): Promise<void> {
 
   console.log(chalk.green(`Installed ${owner}/${name} to ${targetDir}`));
   console.log(chalk.dim(`  SKILL.md written`));
+}
+
+async function promptSkillsDir(config: { skillsDir?: string | null }) {
+  const dir = await input({
+    message: "Where should skills be installed?",
+    validate: (value: string) => {
+      if (!value.trim()) return "Path is required";
+      return true;
+    },
+  });
+  await saveConfig({ ...config, skillsDir: dir });
+  console.log(chalk.dim(`Saved to config: ${dir}`));
+  console.log();
+  return dir;
+}
+
+async function promptDir(): Promise<string> {
+  return input({
+    message: "Where should this skill be installed?",
+    validate: (value: string) => {
+      if (!value.trim()) return "Path is required";
+      return true;
+    },
+  });
 }

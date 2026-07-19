@@ -12,7 +12,10 @@ interface SkillResult {
   content: string;
 }
 
-export async function findCommand(query?: string): Promise<void> {
+export async function findCommand(
+  global: boolean,
+  query?: string,
+): Promise<void> {
   const config = await getConfig();
 
   if (!config.registry) {
@@ -24,19 +27,13 @@ export async function findCommand(query?: string): Promise<void> {
     process.exit(1);
   }
 
-  let skillsDir = config.skillsDir;
-  if (!skillsDir) {
-    console.log(chalk.dim("No skills directory configured."));
-    skillsDir = await input({
-      message: "Where should skills be installed?",
-      validate: (value: string) => {
-        if (!value.trim()) return "Path is required";
-        return true;
-      },
-    });
-    await saveConfig({ ...config, skillsDir });
-    console.log(chalk.dim(`Saved to config: ${skillsDir}`));
-    console.log();
+  let skillsDir: string;
+
+  if (global) {
+    skillsDir =
+      config.skillsDir ?? (await promptSkillsDir(config));
+  } else {
+    skillsDir = await promptDir();
   }
 
   const url = new URL("/api/skills", config.registry);
@@ -99,7 +96,7 @@ export async function findCommand(query?: string): Promise<void> {
     const skill = results.find((r) => r.owner === owner && r.name === name);
     if (!skill) continue;
 
-    const targetDir = join(skillsDir!, name);
+    const targetDir = join(skillsDir, name);
     await mkdir(targetDir, { recursive: true });
     const skillMdPath = join(targetDir, "SKILL.md");
     await writeFile(skillMdPath, skill.content, "utf-8");
@@ -115,4 +112,28 @@ export async function findCommand(query?: string): Promise<void> {
       `Installed ${selected.length} skill${selected.length === 1 ? "" : "s"}`,
     ),
   );
+}
+
+async function promptSkillsDir(config: { skillsDir?: string | null }) {
+  const dir = await input({
+    message: "Where should skills be installed?",
+    validate: (value: string) => {
+      if (!value.trim()) return "Path is required";
+      return true;
+    },
+  });
+  await saveConfig({ ...config, skillsDir: dir });
+  console.log(chalk.dim(`Saved to config: ${dir}`));
+  console.log();
+  return dir;
+}
+
+async function promptDir(): Promise<string> {
+  return input({
+    message: "Where should these skills be installed?",
+    validate: (value: string) => {
+      if (!value.trim()) return "Path is required";
+      return true;
+    },
+  });
 }
