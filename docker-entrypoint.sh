@@ -12,18 +12,18 @@ node -e "
   import('@libsql/client').then(({ createClient }) => {
     const client = createClient({ url: process.env.DATABASE_URL });
     const sql = \`
-      CREATE TABLE IF NOT EXISTS skillz_skills (
+      CREATE TABLE IF NOT EXISTS skillz_skill (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        description TEXT NOT NULL DEFAULT '',
-        version TEXT NOT NULL DEFAULT '0.1.0',
+        description TEXT NOT NULL,
+        version TEXT NOT NULL,
         owner TEXT NOT NULL,
-        content TEXT NOT NULL DEFAULT '',
-        created_at INTEGER NOT NULL DEFAULT (unixepoch()),
-        updated_at INTEGER NOT NULL DEFAULT (unixepoch())
+        content TEXT NOT NULL,
+        createdAt INTEGER NOT NULL DEFAULT (unixepoch()),
+        updatedAt INTEGER NOT NULL DEFAULT (unixepoch())
       );
-      CREATE UNIQUE INDEX IF NOT EXISTS skillz_skills_owner_name_idx ON skillz_skills (owner, name);
-      CREATE INDEX IF NOT EXISTS skillz_skills_owner_name ON skillz_skills (owner, name);
+      CREATE UNIQUE INDEX IF NOT EXISTS owner_name_unique ON skillz_skill (owner, name);
+      CREATE INDEX IF NOT EXISTS owner_name_idx ON skillz_skill (owner, name);
     \`;
     return client.execute(sql);
   }).then(() => {
