@@ -1,18 +1,36 @@
 {
   "name": "skillz",
   "version": "0.1.0",
-  "description": "The Open Source Skill Registry CLI",
+  "description": "CLI for the Open Source Skill Registry — discover, install, and manage AI agent skills",
   "type": "module",
+  "license": "MIT",
+  "author": "anomalyco",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anomalyco/skillz"
+  },
+  "keywords": [
+    "skills",
+    "ai",
+    "agents",
+    "registry",
+    "cli",
+    "skillz"
+  ],
   "bin": {
     "skillz": "./dist/cli.js"
   },
   "exports": {
     ".": "./dist/cli.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "start": "node dist/cli.js"
+    "start": "node dist/cli.js",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@inquirer/prompts": "^7.6.0",

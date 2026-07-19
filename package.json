@@ -17,7 +17,8 @@
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "publish:cli": "npm run build -w packages/cli && npm publish -w packages/cli"
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",
