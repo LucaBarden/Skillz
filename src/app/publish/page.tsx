@@ -1,4 +1,5 @@
 import { HydrateClient } from "skillz/trpc/server";
+import Link from "next/link";
 import { MarkdownEditor } from "skillz/app/_components/markdown-editor";
 
 export default function PublishPage() {
@@ -8,12 +9,12 @@ export default function PublishPage() {
         <div className="mx-auto w-full max-w-2xl px-4 py-10 sm:px-6 lg:px-8">
           <MarkdownEditor />
           <div className="mt-6 text-center">
-            <a
+            <Link
               href="/"
               className="text-xs text-zinc-500 underline decoration-zinc-600 underline-offset-2 transition hover:text-zinc-300"
             >
               ← Back to registry
-            </a>
+            </Link>
           </div>
         </div>
       </main>
