@@ -24,9 +24,19 @@ export async function setupCommand(): Promise<void> {
     },
   });
 
-  await saveConfig({ ...existing, registry });
+  const skillsDir = await input({
+    message: "Skills directory:",
+    default: existing.skillsDir || "~/.skillz",
+    validate: (value: string) => {
+      if (!value.trim()) return "Skills directory is required";
+      return true;
+    },
+  });
+
+  await saveConfig({ ...existing, registry, skillsDir });
 
   console.log();
   console.log(chalk.green("Saved!"));
-  console.log(chalk.dim(`Registry set to: ${registry}`));
+  console.log(chalk.dim(`Registry: ${registry}`));
+  console.log(chalk.dim(`Skills dir: ${skillsDir}`));
 }
