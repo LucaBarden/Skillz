@@ -7,6 +7,9 @@ import "./src/env.js";
 /** @type {import("next").NextConfig} */
 const config = {
   output: "standalone",
+  outputFileTracingIncludes: {
+    "/*": ["./node_modules/@libsql/**"],
+  },
 };
 
 export default config;
