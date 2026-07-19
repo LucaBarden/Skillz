@@ -1,4 +1,5 @@
 import { Command } from "commander";
+import { bannerText } from "./banner.js";
 import { setupCommand } from "./commands/setup.js";
 
 const program = new Command();
@@ -6,7 +7,8 @@ const program = new Command();
 program
   .name("skillz")
   .description("The Open Source Skill Registry CLI")
-  .version("0.1.0");
+  .version("0.1.0")
+  .addHelpText("beforeAll", bannerText());
 
 program
   .command("add")
