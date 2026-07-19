@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import { bannerText } from "./banner.js";
 import { addCommand } from "./commands/add.js";
+import { listCommand } from "./commands/list.js";
 import { publishCommand } from "./commands/publish.js";
 import { removeCommand } from "./commands/remove.js";
 import { setupCommand } from "./commands/setup.js";
@@ -27,6 +28,12 @@ program
     }
     addCommand(owner, name);
   });
+
+program
+  .command("list")
+  .alias("ls")
+  .description("List installed skills")
+  .action(listCommand);
 
 program
   .command("remove")
