@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import { bannerText } from "./banner.js";
 import { addCommand } from "./commands/add.js";
+import { findCommand } from "./commands/find.js";
 import { listCommand } from "./commands/list.js";
 import { publishCommand } from "./commands/publish.js";
 import { removeCommand } from "./commands/remove.js";
@@ -29,6 +30,12 @@ program
     }
     addCommand(owner, name);
   });
+
+program
+  .command("find")
+  .description("Search for skills in the registry")
+  .argument("[query]", "Search query (optional, shows all if omitted)")
+  .action(findCommand);
 
 program
   .command("list")
