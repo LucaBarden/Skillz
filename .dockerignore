@@ -1,0 +1,34 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+
+# build
+dist/
+.tsbuildinfo
+
+# env (use .env.example instead)
+.env
+.env*.local
+
+# database
+*.sqlite
+*.sqlite-journal
+
+# git
+.git
+.gitignore
+
+# editor
+.idea
+.DS_Store
+
+# test artifacts
+.playwright-mcp/
+*.png
+
+# packages
+packages/cli/
+packages/cli/node_modules/

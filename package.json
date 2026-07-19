@@ -18,7 +18,10 @@
     "preview": "next build && next start",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "publish:cli": "npm run build -w packages/cli && npm publish -w packages/cli"
+    "publish:cli": "npm run build -w packages/cli && npm publish -w packages/cli",
+    "docker:build": "docker build -t skillz .",
+    "docker:push": "docker push skillz",
+    "docker:run": "docker run -p 3000:3000 -v skillz-data:/app/data skillz"
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",

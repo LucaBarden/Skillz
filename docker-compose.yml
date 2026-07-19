@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - skillz-data:/app/data
+    environment:
+      - DATABASE_URL=file:/app/data/db.sqlite
+      - NODE_ENV=production
+
+volumes:
+  skillz-data:
