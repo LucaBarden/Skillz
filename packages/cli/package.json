@@ -4,10 +4,10 @@
   "description": "CLI for the Open Source Skill Registry — discover, install, and manage AI agent skills",
   "type": "module",
   "license": "MIT",
-  "author": "anomalyco",
+  "author": "LucaBarden",
   "repository": {
     "type": "git",
-    "url": "https://github.com/anomalyco/skillz"
+    "url": "https://github.com/LucaBarden/Skillz"
   },
   "keywords": [
     "skills",

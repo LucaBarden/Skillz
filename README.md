@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/anomalyco/skillz">GitHub</a> &bull;
+  <a href="https://github.com/LucaBarden/Skillz">GitHub</a> &bull;
   <a href="#self-hosting">Self-hosting</a> &bull;
   <a href="#skill-spec">Skill Spec</a>
 </p>
