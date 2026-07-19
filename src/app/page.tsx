@@ -2,8 +2,6 @@ import { SkillList } from "skillz/app/_components/skill-list";
 import { api, HydrateClient } from "skillz/trpc/server";
 
 export default async function Home() {
-  const hello = await api.skill.hello({ text: "from tRPC" });
-
   void api.skill.getAll.prefetch();
 
   return (
@@ -40,15 +38,19 @@ export default async function Home() {
                   npx skillz add &lt;owner/repo&gt;
                 </code>
               </div>
+
+              <a
+                href="/publish"
+                className="text-xs text-zinc-500 underline decoration-zinc-600 underline-offset-2 transition hover:text-zinc-300"
+              >
+                Publish a skill →
+              </a>
             </div>
           </section>
 
-          <section className="w-full max-w-md rounded-lg border border-zinc-800 bg-zinc-900/40 p-4">
-            <p className="mb-3 text-xs tracking-wide text-zinc-500 uppercase">
-              Registry status
-            </p>
-            <p className="mb-4 text-sm text-zinc-300">
-              {hello ? hello.greeting : "Loading registry status..."}
+          <section className="w-full">
+            <p className="mb-4 text-xs font-medium tracking-wide text-zinc-500 uppercase">
+              Skills
             </p>
             <SkillList />
           </section>

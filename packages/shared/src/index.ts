@@ -1,7 +1,7 @@
-export { skillFrontmatterSchema, skillPublishSchema } from "./schemas.js";
-export type { SkillFrontmatter, SkillPublishInput } from "./schemas.js";
-export { parseSkillMd } from "./parse.js";
-export type { ParseResult, ParseError } from "./parse.js";
+export { skillFrontmatterSchema, skillPublishSchema } from "./schemas";
+export type { SkillFrontmatter, SkillPublishInput } from "./schemas";
+export { parseSkillMd } from "./parse";
+export type { ParseResult, ParseError } from "./parse";
 
 export interface SkillManifest {
   name: string;

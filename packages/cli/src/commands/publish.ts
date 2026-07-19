@@ -52,30 +52,29 @@ export async function publishCommand(skillMdPath: string): Promise<void> {
   console.log(chalk.dim(`Publishing to ${config.registry}...`));
 
   try {
-    const url = new URL("/api/trpc/skill.create", config.registry);
+    const url = new URL("/api/publish", config.registry);
     const response = await fetch(url.toString(), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
     });
 
-    const json = await response.json() as { result?: { data?: { action: string; skill: { owner: string; name: string; version: string } } }; error?: { message: string } };
+    const json = await response.json() as { action?: string; skill?: { owner: string; name: string; version: string }; previousVersion?: string; error?: string };
 
-    if (json.error) {
-      console.error(chalk.red(`Registry error: ${json.error.message}`));
+    if (!response.ok) {
+      console.error(chalk.red(`Registry error (${response.status}): ${json.error ?? "Unknown error"}`));
       process.exit(1);
     }
 
-    const data = json.result?.data;
-    if (!data) {
+    if (!json.action || !json.skill) {
       console.error(chalk.red("Unexpected response from registry."));
       process.exit(1);
     }
 
-    if (data.action === "updated") {
-      console.log(chalk.green(`Updated skill: ${data.skill.owner}/${data.skill.name} (v${data.skill.version})`));
+    if (json.action === "updated") {
+      console.log(chalk.green(`Updated skill: ${json.skill.owner}/${json.skill.name} (v${json.skill.version})`));
     } else {
-      console.log(chalk.green(`Published skill: ${data.skill.owner}/${data.skill.name} (v${data.skill.version})`));
+      console.log(chalk.green(`Published skill: ${json.skill.owner}/${json.skill.name} (v${json.skill.version})`));
     }
   } catch (err) {
     console.error(chalk.red(`Failed to reach registry: ${config.registry}`));
