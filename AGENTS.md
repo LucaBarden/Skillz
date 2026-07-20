@@ -53,6 +53,10 @@ Resolved via `src/server/config.ts` with this fallback chain:
 
 `next.config.js` has `outputFileTracingIncludes: { "/*": ["./node_modules/@libsql/**"] }` — required because Next.js standalone output strips platform-specific native binaries. Without this, Docker runtime fails with `Cannot find module @libsql/linux-arm64-musl`.
 
+### Shared package sources in standalone output
+
+Next.js standalone output only copies workspace package `package.json` files, not their source code. The Dockerfile manually copies `packages/shared/src` into the runner stage. If you add or remove files from `packages/shared/`, update the Dockerfile copy step.
+
 ## Path aliases
 
 - `skillz/*` → `src/*` (tsconfig paths, for web app imports)
