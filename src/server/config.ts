@@ -4,6 +4,9 @@ import { z } from "zod";
 
 const configFileSchema = z.object({
   database_url: z.string().optional(),
+  passwordAuth: z.boolean().optional(),
+  loginRequired: z.boolean().optional(),
+  jwtSecret: z.string().optional(),
 });
 
 type ConfigFile = z.infer<typeof configFileSchema>;
@@ -26,7 +29,14 @@ const DATABASE_URL =
 
 const NODE_ENV = process.env.NODE_ENV ?? "development";
 
+const passwordAuth = fileConfig.passwordAuth ?? false;
+const loginRequired = fileConfig.loginRequired ?? false;
+const jwtSecret = process.env.JWT_SECRET ?? fileConfig.jwtSecret ?? "skillz-dev-secret-change-in-production";
+
 export const serverConfig = {
   DATABASE_URL,
   NODE_ENV,
+  passwordAuth,
+  loginRequired,
+  jwtSecret,
 };

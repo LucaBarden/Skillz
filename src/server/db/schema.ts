@@ -23,3 +23,17 @@ export const skills = createTable(
     unique("owner_name_unique").on(t.owner, t.name),
   ],
 );
+
+export const users = createTable("user", (d) => ({
+  id: d.integer({ mode: "number" }).primaryKey({ autoIncrement: true }),
+  username: d.text({ length: 256 }).notNull().unique(),
+  email: d.text({ length: 256 }).notNull(),
+  passwordHash: d.text().notNull(),
+  apiKeyHash: d.text(),
+  apiKeyPrefix: d.text(),
+  createdAt: d
+    .integer({ mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+  updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
+}));

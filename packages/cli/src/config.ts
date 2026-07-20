@@ -6,6 +6,7 @@ export interface SkillzConfig {
   registry: string;
   owner?: string;
   skillsDir?: string;
+  apiKey?: string;
 }
 
 const CONFIG_DIR = join(homedir(), ".config", "skillz");

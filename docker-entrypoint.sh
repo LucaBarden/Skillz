@@ -24,6 +24,17 @@ node -e "
       );
       CREATE UNIQUE INDEX IF NOT EXISTS owner_name_unique ON skillz_skill (owner, name);
       CREATE INDEX IF NOT EXISTS owner_name_idx ON skillz_skill (owner, name);
+
+      CREATE TABLE IF NOT EXISTS skillz_user (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE,
+        email TEXT NOT NULL,
+        passwordHash TEXT NOT NULL,
+        apiKeyHash TEXT,
+        apiKeyPrefix TEXT,
+        createdAt INTEGER NOT NULL DEFAULT (unixepoch()),
+        updatedAt INTEGER NOT NULL DEFAULT (unixepoch())
+      );
     \`;
     return client.execute(sql);
   }).then(() => {

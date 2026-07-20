@@ -53,9 +53,13 @@ export async function publishCommand(skillMdPath: string): Promise<void> {
 
   try {
     const url = new URL("/api/publish", config.registry);
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (config.apiKey) {
+      headers["Authorization"] = `Bearer ${config.apiKey}`;
+    }
     const response = await fetch(url.toString(), {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify(input),
     });
 

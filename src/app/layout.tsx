@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 import { Fira_Mono, Geist } from "next/font/google";
 
 import { TRPCReactProvider } from "skillz/trpc/react";
+import { AuthNav } from "skillz/app/_components/auth-nav";
 
 export const metadata: Metadata = {
   title: "SKILLZ",
@@ -28,7 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable} ${firaMono.variable}`}>
       <body className="bg-[#090a0d]">
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          <AuthNav />
+          {children}
+        </TRPCReactProvider>
       </body>
     </html>
   );

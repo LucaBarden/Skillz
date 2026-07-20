@@ -1,4 +1,4 @@
-import { input } from "@inquirer/prompts";
+import { input, password } from "@inquirer/prompts";
 import chalk from "chalk";
 import { showBanner } from "../banner.ts";
 import { getConfig, saveConfig } from "../config.ts";
@@ -33,10 +33,21 @@ export async function setupCommand(): Promise<void> {
     },
   });
 
-  await saveConfig({ ...existing, registry, skillsDir });
+  const apiKey = await password({
+    message: "API key (optional — paste here to set, leave blank to skip):",
+  });
+
+  await saveConfig({
+    ...existing,
+    registry,
+    skillsDir,
+    apiKey: apiKey || undefined,
+  });
 
   console.log();
   console.log(chalk.green("Saved!"));
   console.log(chalk.dim(`Registry: ${registry}`));
   console.log(chalk.dim(`Skills dir: ${skillsDir}`));
+  if (apiKey) console.log(chalk.dim("API key: set"));
 }
+

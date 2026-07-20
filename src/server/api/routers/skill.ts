@@ -4,6 +4,8 @@ import { eq, and, desc } from "drizzle-orm";
 import { skillPublishSchema } from "@skillz/shared";
 import { createTRPCRouter, publicProcedure } from "skillz/server/api/trpc";
 import { skills } from "skillz/server/db/schema";
+import { serverConfig } from "skillz/server/config";
+import { TRPCError } from "@trpc/server";
 
 export const skillRouter = createTRPCRouter({
   hello: publicProcedure
@@ -17,6 +19,19 @@ export const skillRouter = createTRPCRouter({
   create: publicProcedure
     .input(skillPublishSchema)
     .mutation(async ({ ctx, input }) => {
+      if (serverConfig.loginRequired && !ctx.user) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+
+      if (ctx.user) {
+        if (input.owner !== ctx.user.username) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "Owner must match your username",
+          });
+        }
+      }
+
       const existing = await ctx.db.query.skills.findFirst({
         where: and(eq(skills.owner, input.owner), eq(skills.name, input.name)),
       });
