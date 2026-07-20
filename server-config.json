@@ -1,0 +1,5 @@
+{
+  "database_url": "file:./db.sqlite",
+  "passwordAuth": true,
+  "loginRequired": true
+}

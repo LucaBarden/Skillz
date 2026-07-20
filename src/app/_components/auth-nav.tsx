@@ -7,14 +7,34 @@ export function AuthNav() {
   const [user, setUser] = useState<{ username: string } | null | undefined>(
     undefined,
   );
+  const [authEnabled, setAuthEnabled] = useState(false);
+
+  const [loginRequired, setLoginRequired] = useState(false);
 
   useEffect(() => {
     interface MeResponse { user: { username: string } | null }
-    fetch("/api/auth/me")
-      .then((r) => (r.ok ? (r.json() as Promise<MeResponse>) : null))
-      .then((d) => setUser(d?.user ?? null))
+    interface StatusResponse { passwordAuth: boolean; loginRequired: boolean }
+
+    Promise.all([
+      fetch("/api/auth/me"),
+      fetch("/api/auth/status"),
+    ]).then(([meRes, statusRes]) => {
+      if (statusRes.ok) {
+        void statusRes.json()
+          .then((s: StatusResponse) => {
+            setAuthEnabled(s.passwordAuth);
+            setLoginRequired(s.loginRequired);
+          });
+      }
+      if (meRes.ok) {
+        return meRes.json() as Promise<MeResponse>;
+      }
+      return null;
+    }).then((d) => setUser(d?.user ?? null))
       .catch(() => setUser(null));
   }, []);
+
+  const showPublish = !loginRequired || user !== null && user !== undefined;
 
   return (
     <nav className="border-b border-zinc-800 bg-zinc-950/50">
@@ -23,14 +43,16 @@ export function AuthNav() {
           SKILLZ
         </Link>
         <div className="flex items-center gap-4 text-xs text-zinc-400">
-          <Link href="/publish" className="hover:text-zinc-200">
-            Publish
-          </Link>
+          {showPublish && (
+            <Link href="/publish" className="hover:text-zinc-200">
+              Publish
+            </Link>
+          )}
           {user === undefined ? null : user ? (
             <Link href="/profile" className="hover:text-zinc-200">
               {user.username}
             </Link>
-          ) : (
+          ) : authEnabled ? (
             <>
               <Link href="/login" className="hover:text-zinc-200">
                 Sign in
@@ -39,7 +61,7 @@ export function AuthNav() {
                 Register
               </Link>
             </>
-          )}
+          ) : null}
         </div>
       </div>
     </nav>

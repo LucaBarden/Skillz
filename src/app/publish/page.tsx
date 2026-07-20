@@ -1,8 +1,25 @@
 import { HydrateClient } from "skillz/trpc/server";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { MarkdownEditor } from "skillz/app/_components/markdown-editor";
+import { serverConfig } from "skillz/server/config";
+import { verifyToken } from "skillz/server/auth/jwt";
 
-export default function PublishPage() {
+export default async function PublishPage() {
+  if (serverConfig.loginRequired) {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("skillz_token")?.value;
+    if (!token) {
+      redirect("/login");
+    }
+    try {
+      await verifyToken(token);
+    } catch {
+      redirect("/login");
+    }
+  }
+
   return (
     <HydrateClient>
       <main className="min-h-screen bg-[#090a0d] font-mono text-zinc-100">
