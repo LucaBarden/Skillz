@@ -8,7 +8,7 @@ import "./src/env.js";
 const config = {
   output: "standalone",
   outputFileTracingIncludes: {
-    "/*": ["./node_modules/@libsql/**"],
+    "/*": ["./node_modules/@libsql/**", "./packages/shared/**"],
   },
 };
 
