@@ -1,12 +1,12 @@
 import { Command } from "commander";
-import { bannerText } from "./banner.js";
-import { addCommand } from "./commands/add.js";
-import { findCommand } from "./commands/find.js";
-import { listCommand } from "./commands/list.js";
-import { publishCommand } from "./commands/publish.js";
-import { removeCommand } from "./commands/remove.js";
-import { setupCommand } from "./commands/setup.js";
-import { updateCommand } from "./commands/update.js";
+import { bannerText } from "./banner.ts";
+import { addCommand } from "./commands/add.ts";
+import { findCommand } from "./commands/find.ts";
+import { listCommand } from "./commands/list.ts";
+import { publishCommand } from "./commands/publish.ts";
+import { removeCommand } from "./commands/remove.ts";
+import { setupCommand } from "./commands/setup.ts";
+import { updateCommand } from "./commands/update.ts";
 
 const program = new Command();
 

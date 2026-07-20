@@ -35,9 +35,15 @@ npm workspaces monorepo with 3 packages:
 
 `src/server/db/index.ts` initializes a libSQL client at **import time**. `next build` evaluates route modules during the "Collecting page data" phase — if `DATABASE_URL` is unset, the build crashes with `URL_INVALID`.
 
+Resolved via `src/server/config.ts` with this fallback chain:
+1. `process.env.DATABASE_URL` (set by `.env` or CLI)
+2. `server-config.json` → `database_url` field (non-Docker deployments)
+3. Default: `file:./db.sqlite`
+
 - Local: `DATABASE_URL=file:./db.sqlite npm run build`
 - Docker builder stage: `DATABASE_URL=:memory:` (build only — runtime URL comes from docker-compose)
 - `.env` overrides CLI env vars for Next.js; pass `SKIP_ENV_VALIDATION=true` to avoid validation errors when overriding
+- Copy `server-config.example.json` → `server-config.json` for non-env configuration
 
 ### Schema duplication
 

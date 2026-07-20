@@ -3,7 +3,7 @@ import type { Dirent } from "node:fs";
 import { join } from "node:path";
 import chalk from "chalk";
 import { checkbox } from "@inquirer/prompts";
-import { getConfig } from "../config.js";
+import { getConfig } from "../config.ts";
 
 export async function removeCommand(): Promise<void> {
   const config = await getConfig();

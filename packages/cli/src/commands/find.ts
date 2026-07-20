@@ -2,7 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import chalk from "chalk";
 import { checkbox, input } from "@inquirer/prompts";
-import { getConfig, saveConfig, type SkillzConfig } from "../config.js";
+import { getConfig, saveConfig, type SkillzConfig } from "../config.ts";
 
 interface SkillResult {
   owner: string;

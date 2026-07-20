@@ -1,12 +1,12 @@
 import { type Config } from "drizzle-kit";
 
-import { env } from "skillz/env";
+import { serverConfig } from "skillz/server/config";
 
 export default {
   schema: "./src/server/db/schema.ts",
   dialect: "sqlite",
   dbCredentials: {
-    url: env.DATABASE_URL,
+    url: serverConfig.DATABASE_URL,
   },
   tablesFilter: ["skillz_*"],
 } satisfies Config;

@@ -2,8 +2,8 @@ import { readdir, readFile } from "node:fs/promises";
 import type { Dirent } from "node:fs";
 import { join } from "node:path";
 import chalk from "chalk";
-import { parseSkillMd } from "../../../shared/src/index.js";
-import { getConfig } from "../config.js";
+import { parseSkillMd } from "../../../shared/src/index.ts";
+import { getConfig } from "../config.ts";
 
 export async function listCommand(): Promise<void> {
   const config = await getConfig();

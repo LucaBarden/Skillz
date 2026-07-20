@@ -1,7 +1,7 @@
 import { input } from "@inquirer/prompts";
 import chalk from "chalk";
-import { showBanner } from "../banner.js";
-import { getConfig, saveConfig } from "../config.js";
+import { showBanner } from "../banner.ts";
+import { getConfig, saveConfig } from "../config.ts";
 
 export async function setupCommand(): Promise<void> {
   showBanner();

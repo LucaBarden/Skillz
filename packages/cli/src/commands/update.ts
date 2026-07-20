@@ -2,8 +2,8 @@ import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import type { Dirent } from "node:fs";
 import { join } from "node:path";
 import chalk from "chalk";
-import { parseSkillMd } from "../../../shared/src/index.js";
-import { getConfig } from "../config.js";
+import { parseSkillMd } from "../../../shared/src/index.ts";
+import { getConfig } from "../config.ts";
 
 function compareVersions(a: string, b: string): number {
   const pa = a.split(".").map(Number);

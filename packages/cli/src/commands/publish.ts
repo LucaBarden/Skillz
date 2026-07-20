@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import chalk from "chalk";
-import { parseSkillMd, skillPublishSchema } from "../../../shared/src/index.js";
-import { getConfig } from "../config.js";
+import { parseSkillMd, skillPublishSchema } from "../../../shared/src/index.ts";
+import { getConfig } from "../config.ts";
 
 export async function publishCommand(skillMdPath: string): Promise<void> {
   // 1. Resolve and read file
